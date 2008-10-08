@@ -1,0 +1,26 @@
+Suprails
+========
+
+This project is intended to be a replacement for the "rails" command and
+nothing else. It does not replace the rails framework but rather provides a
+starting point for a rails application far beyond what the "rails" command
+provides. During execution, in fact, the suprails command calls the rails
+command.
+
+How it works
+============
+
+Suprails is unlike most other "Rails plus other stuff" projects out there.
+Instead of me, the Suprails author, decided what you should have in your rails
+app, you get to decide. In addiiton, any time you execute Suprails, you have
+the option to update any gems that would otherwise be out-of-date.
+
+Installation
+============
+
+TBD
+
+Bugs
+====
+
+0.0.0 - Initial readme. No code.
