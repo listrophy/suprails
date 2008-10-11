@@ -1,5 +1,7 @@
 #! /usr/bin/env ruby
-# Suprails
+#
+# Suprails: The customizable wrapper to the rails command
+#
 # Copyright 2008 Bradley Grzesiak
 # This file is part of Suprails.
 # 
@@ -42,19 +44,24 @@ class Suprails
   #     installs the gems into the vendor folder
   # --freeze-rails
   #     freezes rails a la rake rails:freeze:gems
+  # --update-gems
+  #     checks for new versions of gems before installing them
+  # --save-opts
+  #     saves (overwrites) the given options to ~/.suprails
   def parse_command_line(args)
     while args.length > 0
       case current = args.shift
       when '--git'
         @options[:git] = true
-        nil
       when '--gems'
         gem_string = args.shift
         @options[:gems] = gem_string.split(' ')
-        nil
       when '--freeze-rails'
         @options[:freeze_rails] = true
-        nil
+      when '--update-gems'
+        @options[:update_gems] = true
+      when '--save-opts'
+        @options[:save_opts] = true
       else
         puts "invalid argument: #{current}"
       end
@@ -63,21 +70,20 @@ class Suprails
   
   def create_project
     puts "application creation not yet implemented"
-    puts "you were about to create an app called '#{@app_name}'"
-    if @options.length > 0
-      puts "with options:"
-      @options.each do |key, opt|
-        puts "    #{key}"
-      end
-    else
-      puts "without any options"
-    end
+    puts "you were about to create an app:"
+    puts to_s
     
     # run_rails
   end
   
   def to_s
-    "Rails appname: #{@app_name}\nOptions: (not implemented)"
+    ret = "Rails appname: #{@app_name}\nOptions:\n"
+    if @options.length > 0
+      @options.each {|key,opt| ret += "  #{key}\n"}
+    else
+      ret += "  none"
+    end
+    ret
   end
   
   private
@@ -93,20 +99,23 @@ puts "Behold, this is Suprails"
 
 suprails = Suprails.new
 execute_rails = false
+interactive_mode = false
 
 case opts.length
 when 0
-  # TODO: interactive
-  puts '0 argument given, quitting'
+  interactive_mode = true
 when 1
-  # TODO: create a rails app based on saved preferences
-  suprails.app_name = opts[0]
+  suprails = Suprails.new opts[0]
   execute_rails = true
 else
-  # TODO: parse the arguments and create a rails app
-  suprails.app_name = opts.shift
+  suprails = Suprails.new opts.shift
   suprails.parse_command_line(opts)
   execute_rails = true
 end
 
-suprails.create_project if execute_rails
+if execute_rails
+  suprails.create_project
+elsif interactive_mode
+  #TODO: write interactive mode
+  puts 'interactive mode not yet implemented, quitting'
+end
