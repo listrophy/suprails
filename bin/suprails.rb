@@ -52,16 +52,16 @@ class Suprails
     while args.length > 0
       case current = args.shift
       when '--git'
-        @options[:git] = true
+        @options['git'] = true
       when '--gems'
         gem_string = args.shift
-        @options[:gems] = gem_string.split(' ')
+        @options['gems'] = gem_string.split(' ')
       when '--freeze-rails'
-        @options[:freeze_rails] = true
+        @options['freeze-rails'] = true
       when '--update-gems'
-        @options[:update_gems] = true
+        @options['update-gems'] = true
       when '--save-opts'
-        @options[:save_opts] = true
+        @options['save-opts'] = true
       else
         puts "invalid argument: #{current}"
       end
@@ -69,11 +69,36 @@ class Suprails
   end
   
   def create_project
-    puts "application creation not yet implemented"
-    puts "you were about to create an app:"
+    puts "application creation not yet implemented. You were about to create an app:"
     puts to_s
     
     # run_rails
+  end
+  
+  def write_prefs?
+    @options['save-opts']
+  end
+  
+  # writes the command-line arguments to ~/.suprails
+  def write_prefs
+
+    open(File.expand_path("~/.suprails"), 'w') do |f|
+      f.puts '---'
+      f.puts '# This is the Suprails config file'
+      f.puts "git: #{@options['git'] ? 'true' : 'false'}"
+      f.puts "freeze-rails: #{@options['freeze-rails'] ? 'true' : 'false'}"
+      f.puts "update-gems: #{@options['update-gems'] ? 'true' : 'false'}"
+      f.puts "gems: #{@options['gems'] ? @options['gems'].join(' ') : 'false'}"
+    end
+    
+  end
+  
+  def read_prefs
+    require 'yaml'
+    @options = YAML::load(File.open(File.expand_path('~/.suprails')))
+    
+    #remove spurious key-value pairs
+    @options.delete_if {|k,v| !%w{git freeze-rails update-gems gems}.include?(k)}
   end
   
   def to_s
@@ -95,6 +120,7 @@ class Suprails
 end
 
 opts = ARGV
+puts ''
 puts "Behold, this is Suprails"
 
 suprails = Suprails.new
@@ -106,6 +132,7 @@ when 0
   interactive_mode = true
 when 1
   suprails = Suprails.new opts[0]
+  suprails.read_prefs
   execute_rails = true
 else
   suprails = Suprails.new opts.shift
@@ -114,6 +141,7 @@ else
 end
 
 if execute_rails
+  suprails.write_prefs if suprails.write_prefs?
   suprails.create_project
 elsif interactive_mode
   #TODO: write interactive mode
