@@ -1,4 +1,3 @@
-#! /usr/bin/env ruby
 #
 # Suprails: The customizable wrapper to the rails command
 #
@@ -18,8 +17,6 @@
 #     You should have received a copy of the GNU General Public License
 #     along with Suprails.  If not, see <http://www.gnu.org/licenses/>.
 #
-
-require 'rubygems'
 require File.dirname(__FILE__) + '/../lib/suprails_plugins.rb'
 
 class Suprails
@@ -117,33 +114,4 @@ class Suprails
   def run_rails
     nil
   end
-end
-
-opts = ARGV
-puts ''
-puts "Behold, this is Suprails"
-
-suprails = Suprails.new
-execute_rails = false
-interactive_mode = false
-
-case opts.length
-when 0
-  interactive_mode = true
-when 1
-  suprails = Suprails.new opts[0]
-  suprails.read_prefs
-  execute_rails = true
-else
-  suprails = Suprails.new opts.shift
-  suprails.parse_command_line(opts)
-  execute_rails = true
-end
-
-if execute_rails
-  suprails.write_prefs if suprails.write_prefs?
-  suprails.create_project
-elsif interactive_mode
-  #TODO: write interactive mode
-  puts 'interactive mode not yet implemented, quitting'
 end
