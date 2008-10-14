@@ -79,6 +79,21 @@ class Suprails
       def db db
         puts "db.#{@db_type}.db #{db}"
       end
+      def database datab
+        db datab
+      end
+      def host h
+        puts "db.#{@db_type}.host #{h}"
+      end
+      def username uname
+        puts "db.#{@db_type}.username #{uname}"
+      end
+      def password passwd
+        puts "db.#{@db_type}.password #{passwd}"
+      end
+      def socket s
+        puts "db.#{@db_type}.socket #{s}"
+      end
       def timeout to
         puts "db.#{@db_type}.timeout #{to}"
       end
