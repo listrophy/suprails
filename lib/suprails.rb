@@ -56,9 +56,43 @@ class Suprails
   end
 
   class Gems
+    def update *gems
+      puts "gems.update: #{gems}"
+    end
+    def config *gems
+      puts "gems.config: #{gems}"
+    end
+    def unpack
+      puts "gems.config"
+    end
   end
 
   class DB
+    attr_reader :development, :test, :production
+    class Environment
+      def initialize db_type
+        @db_type = db_type
+      end
+      def adapter adapter
+        puts "db.#{@db_type}.adapter #{adapter}"
+      end
+      def db db
+        puts "db.#{@db_type}.db #{db}"
+      end
+      def timeout to
+        puts "db.#{@db_type}.timeout #{to}"
+      end
+    end
+    def initialize
+      @development = Environment.new 'development'
+      @test = Environment.new 'test'
+      @production = Environment.new 'production'
+    end
+    
+    def create
+      puts 'db.create'
+    end
+      
   end
 
   class Runner
@@ -67,7 +101,10 @@ class Suprails
     end
 
     def run
-      load @runfile
+      gems = Gems.new
+      db = DB.new
+      text = File.read(@runfile).split('\n')
+      text.each {|l| instance_eval(l)}
     end
 
     def sources sourcefile
