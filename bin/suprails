@@ -20,33 +20,35 @@
 #
 
 require 'rubygems'
-require File.dirname(__FILE__) + '/../lib/suprails.rb'
+require File.dirname(__FILE__) + '/../lib/suprails'
 
 opts = ARGV
-puts ''
-puts "Behold, this is Suprails"
 
 suprails = Suprails.new
 execute_rails = false
 interactive_mode = false
+help_mode = false
 
-case opts.length
-when 0
+if opts.length == 0
   interactive_mode = true
-when 1
-  suprails = Suprails.new opts[0]
-  suprails.read_prefs
-  execute_rails = true
 else
-  suprails = Suprails.new opts.shift
-  suprails.parse_command_line(opts)
-  execute_rails = true
+  if ['-h', '--help'].include?(opts[0])
+    help_mode = true
+  else
+    suprails = Suprails.new opts.shift
+    execute_rails = true
+  end
 end
 
+puts
+puts 'Behold, this is Suprails'
+
 if execute_rails
-  suprails.write_prefs if suprails.write_prefs?
   suprails.create_project
 elsif interactive_mode
   #TODO: write interactive mode
   puts 'interactive mode not yet implemented, quitting'
+elsif help_mode
+  #TODO: write help screen
+  puts 'no help'
 end

@@ -1,3 +1,29 @@
+13-Oct-08
+---------
+Command list is tentatively:
+
+sources "foldername"
+rails
+freeze
+gems.config [:development|:test|:production] [ :gemname1 [, "gemname2" [...]]]
+gems.update [ "gemname1" [, :gemname2 [...]]]
+gems.unpack
+plugin "pluginlocation"
+generate "generator" [ :optional_argument [, "optional_argument2" [...]]]
+folder "foldername"
+file "sourcefile", "destfile"
+delete "filename"
+gpl
+db.(development|test|production).(adapter|encoding|database|username|password|host) "value"
+db.create
+rake "rake-task"
+git
+svn
+(facet-name)
+(facet-name).(cmd) [ :optional_argument1 [, "optional_argument2" [...]]]
+
+=========
+
 courtesy of nice_burger on irc.freenode.net#rubyonrails
 
 I18n,globalize2 for that. map.root in route.db to welcome or something. install haml, if only to get sass. freeze rails, action_mailer stuff for restful_auth, exception_notifier is good, capify, shoulda for tests, app_config plugin, put something nice in README, set up on github (ssh keys stuff to worry about). um, for starters.

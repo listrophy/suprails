@@ -17,68 +17,34 @@
 #     You should have received a copy of the GNU General Public License
 #     along with Suprails.  If not, see <http://www.gnu.org/licenses/>.
 #
-require File.dirname(__FILE__) + '/../lib/suprails_plugins.rb'
+require File.dirname(__FILE__) + '/suprails_plugins'
 
 class Suprails
   include SuprailsPlugins
   
   def initialize(app_name = "")
     @app_name = app_name
-    @options = {}
+    @run_file = ""
   end
-  
+
   def app_name=(val)
     @app_name = val
   end
   def app_name
     @app_name
   end
-  
-  # The following arguments are currently allowed:
-  # --git
-  #     initiates git
-  # --gems "gemname [gemname2 [gemname3 [...etc...]]]"
-  #     installs the gems into the vendor folder
-  # --freeze-rails
-  #     freezes rails a la rake rails:freeze:gems
-  # --update-gems
-  #     checks for new versions of gems before installing them
-  # --save-opts
-  #     saves (overwrites) the given options to ~/.suprails
-  def parse_command_line(args)
-    while args.length > 0
-      case current = args.shift
-      when '--git'
-        @options['git'] = true
-      when '--gems'
-        gem_string = args.shift
-        @options['gems'] = gem_string.split(' ')
-      when '--freeze-rails'
-        @options['freeze-rails'] = true
-      when '--update-gems'
-        @options['update-gems'] = true
-      when '--save-opts'
-        @options['save-opts'] = true
-      else
-        puts "invalid argument: #{current}"
-      end
-    end
-  end
-  
+
   def create_project
     puts "application creation not yet implemented. You were about to create an app:"
     puts to_s
-    
+
+    runner = Runner.new
+    runner.run
+
     # run_rails
   end
-  
-  def write_prefs?
-    @options['save-opts']
-  end
-  
-  # writes the command-line arguments to ~/.suprails
-  def write_prefs
 
+  def write_prefs
     open(File.expand_path("~/.suprails"), 'w') do |f|
       f.puts '---'
       f.puts '# This is the Suprails config file'
@@ -87,31 +53,79 @@ class Suprails
       f.puts "update-gems: #{@options['update-gems'] ? 'true' : 'false'}"
       f.puts "gems: #{@options['gems'] ? @options['gems'].join(' ') : 'false'}"
     end
-    
   end
+
+  class Gems
+  end
+
+  class DB
+  end
+
+  class Runner
+    def initialize(runfile = "~/.suprails")
+      @runfile = File.expand_path(runfile)
+    end
+
+    def run
+      load @runfile
+    end
+
+    def sources sourcefile
+      puts "source: #{sourcefile}"
+    end
+
+    def rails
+      puts "rails"
+    end
+
+    def freeze
+      puts "freeze"
+    end
+
+    def plugin plugin_location
+      puts "plugin: #{plugin_location}"
+    end
+
+    def generate generator, *opts
+      puts "generate: #{generator}, #{opts}"
+    end
+
+    def folder folder_name
+      puts "folder: #{folder_name}"
+    end
+
+    def file source_file, destination
+      puts "file: #{source_file}, #{destination}"
+    end
+
+    def delete file_name
+      puts "delete: #{file_name}"
+    end
+
+    def gpl
+      puts "gpl"
+    end
+
+    def rake *opts
+      puts "rake: #{opts}"
+    end
+
+    def git
+      puts "git"
+    end
   
-  def read_prefs
-    require 'yaml'
-    @options = YAML::load(File.open(File.expand_path('~/.suprails')))
-    
-    #remove spurious key-value pairs
-    @options.delete_if {|k,v| !%w{git freeze-rails update-gems gems}.include?(k)}
+    def svn
+      puts "svn"
+    end
+  
+    def haml
+      puts "haml"
+    end
+  
   end
   
   def to_s
-    ret = "Rails appname: #{@app_name}\nOptions:\n"
-    if @options.length > 0
-      @options.each {|key,opt| ret += "  #{key}\n"}
-    else
-      ret += "  none"
-    end
-    ret
+    "Rails appname: #{@app_name}\n"
   end
   
-  private
-  
-  # this method virtually runs the "rails" command
-  def run_rails
-    nil
-  end
 end
