@@ -113,17 +113,20 @@ class Suprails
   class Runner
     def initialize(runfile = "~/.suprails")
       @runfile = File.expand_path(runfile)
+      @sources = ''
     end
 
     def run
       gems = Gems.new
       db = DB.new
+      #TODO: for each facet in facets folder (TBD), include and instantiate
       text = File.read(@runfile).split('\n')
       text.each {|l| instance_eval(l)}
     end
 
-    def sources sourcefile
-      puts "source: #{sourcefile}"
+    def sources sourcefolder
+      puts "source: #{sourcefolder}"
+      @sources = sourcefolder
     end
 
     def rails
@@ -144,18 +147,27 @@ class Suprails
 
     def folder folder_name
       puts "folder: #{folder_name}"
+      path = ''
+      paths = folder_name.split('/')
+      paths.each do |p|
+        path += "#{p}/"
+        Dir.mkdir path
+      end
     end
 
     def file source_file, destination
-      puts "file: #{source_file}, #{destination}"
+      #TODO: search @sources first!
+      File.copy source_file, destination, true if File.exists? source_file
     end
 
     def delete file_name
       puts "delete: #{file_name}"
+      File.delete file_name if File.exists?(file_name)
     end
 
     def gpl
-      puts "gpl"
+      puts 'Installing the GPL into COPYING'
+      File.open('COPYING', 'w') {|f| f.puts "this is the GPL"}
     end
 
     def rake *opts
@@ -169,7 +181,8 @@ class Suprails
     def svn
       puts "svn"
     end
-  
+    
+    #TODO: This should be generated via a facet, not explicitly defined
     def haml
       puts "haml"
     end
