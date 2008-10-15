@@ -17,10 +17,11 @@
 #     You should have received a copy of the GNU General Public License
 #     along with Suprails.  If not, see <http://www.gnu.org/licenses/>.
 #
-require File.dirname(__FILE__) + '/suprails_plugins'
+
+require File.dirname(__FILE__) + '/runner'
 
 class Suprails
-  include SuprailsPlugins
+  # include SuprailsPlugins
   
   def initialize(app_name = "")
     @app_name = app_name
@@ -38,10 +39,8 @@ class Suprails
     puts "application creation not yet implemented. You were about to create an app:"
     puts to_s
 
-    runner = Runner.new
+    runner = Runner.new @app_name
     runner.run
-
-    # run_rails
   end
 
   def write_prefs
@@ -53,140 +52,6 @@ class Suprails
       f.puts "update-gems: #{@options['update-gems'] ? 'true' : 'false'}"
       f.puts "gems: #{@options['gems'] ? @options['gems'].join(' ') : 'false'}"
     end
-  end
-
-  class Gems
-    def update *gems
-      puts "gems.update: #{gems}"
-    end
-    def config *gems
-      puts "gems.config: #{gems}"
-    end
-    def unpack
-      puts "gems.config"
-    end
-  end
-
-  class DB
-    attr_reader :development, :test, :production
-    class Environment
-      def initialize db_type
-        @db_type = db_type
-      end
-      def adapter adapter
-        puts "db.#{@db_type}.adapter #{adapter}"
-      end
-      def db db
-        puts "db.#{@db_type}.db #{db}"
-      end
-      def database datab
-        db datab
-      end
-      def host h
-        puts "db.#{@db_type}.host #{h}"
-      end
-      def username uname
-        puts "db.#{@db_type}.username #{uname}"
-      end
-      def password passwd
-        puts "db.#{@db_type}.password #{passwd}"
-      end
-      def socket s
-        puts "db.#{@db_type}.socket #{s}"
-      end
-      def timeout to
-        puts "db.#{@db_type}.timeout #{to}"
-      end
-    end
-    def initialize
-      @development = Environment.new 'development'
-      @test = Environment.new 'test'
-      @production = Environment.new 'production'
-    end
-    
-    def create
-      puts 'db.create'
-    end
-      
-  end
-
-  class Runner
-    def initialize(runfile = "~/.suprails")
-      @runfile = File.expand_path(runfile)
-      @sources = ''
-    end
-
-    def run
-      gems = Gems.new
-      db = DB.new
-      #TODO: for each facet in facets folder (TBD), include and instantiate
-      text = File.read(@runfile).split('\n')
-      text.each {|l| instance_eval(l)}
-    end
-
-    def sources sourcefolder
-      puts "source: #{sourcefolder}"
-      @sources = sourcefolder
-    end
-
-    def rails
-      puts "rails"
-    end
-
-    def freeze
-      puts "freeze"
-    end
-
-    def plugin plugin_location
-      puts "plugin: #{plugin_location}"
-    end
-
-    def generate generator, *opts
-      puts "generate: #{generator}, #{opts}"
-    end
-
-    def folder folder_name
-      puts "folder: #{folder_name}"
-      path = ''
-      paths = folder_name.split('/')
-      paths.each do |p|
-        path += "#{p}/"
-        Dir.mkdir path
-      end
-    end
-
-    def file source_file, destination
-      #TODO: search @sources first!
-      File.copy source_file, destination, true if File.exists? source_file
-    end
-
-    def delete file_name
-      puts "delete: #{file_name}"
-      File.delete file_name if File.exists?(file_name)
-    end
-
-    def gpl
-      puts 'Installing the GPL into COPYING'
-      File.open('COPYING', 'w') {|f| f.puts "this is the GPL"}
-    end
-
-    def rake *opts
-      puts "rake: #{opts}"
-    end
-
-    def git
-      puts "git"
-    end
-  
-    def svn
-      puts "svn"
-    end
-    
-    #TODO: This should be generated via a facet, not explicitly defined
-    def haml
-      puts "haml"
-    end
-  
   end
   
   def to_s
