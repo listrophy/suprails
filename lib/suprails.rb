@@ -18,6 +18,8 @@
 #     along with Suprails.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'rubygems'
+
 require File.dirname(__FILE__) + '/runner'
 
 class Suprails
@@ -36,23 +38,19 @@ class Suprails
   end
 
   def create_project
-    puts "application creation not yet implemented. You were about to create an app:"
-    puts to_s
-
-    runner = Runner.new @app_name
-    runner.run
+    Runner.new(@app_name).run
   end
 
-  def write_prefs
-    open(File.expand_path("~/.suprails"), 'w') do |f|
-      f.puts '---'
-      f.puts '# This is the Suprails config file'
-      f.puts "git: #{@options['git'] ? 'true' : 'false'}"
-      f.puts "freeze-rails: #{@options['freeze-rails'] ? 'true' : 'false'}"
-      f.puts "update-gems: #{@options['update-gems'] ? 'true' : 'false'}"
-      f.puts "gems: #{@options['gems'] ? @options['gems'].join(' ') : 'false'}"
-    end
-  end
+  # def write_prefs
+  #   open(File.expand_path("~/.suprails"), 'w') do |f|
+  #     f.puts '---'
+  #     f.puts '# This is the Suprails config file'
+  #     f.puts "git: #{@options['git'] ? 'true' : 'false'}"
+  #     f.puts "freeze-rails: #{@options['freeze-rails'] ? 'true' : 'false'}"
+  #     f.puts "update-gems: #{@options['update-gems'] ? 'true' : 'false'}"
+  #     f.puts "gems: #{@options['gems'] ? @options['gems'].join(' ') : 'false'}"
+  #   end
+  # end
   
   def to_s
     "Rails appname: #{@app_name}\n"

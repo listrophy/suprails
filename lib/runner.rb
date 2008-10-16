@@ -21,7 +21,6 @@
 require File.dirname(__FILE__) + '/db'
 require File.dirname(__FILE__) + '/gems'
 
-
 class Runner
   def initialize(app_name, runfile = "~/.suprails")
     @app_name = app_name
@@ -30,10 +29,11 @@ class Runner
   end
 
   def run
-    gems = Gems.new
-    db = DB.new
+    gems = Gems.new @app_name
+    db = DB.new @app_name
+    @base = File.expand_path "./#{@app_name}"
     #TODO: for each facet in facets folder (TBD), include and instantiate
-    Dir.mkdir("./#{@app_name}")
+    Dir.mkdir(@base)
     text = File.read(@runfile).split('\n')
     text.each {|l| instance_eval(l)}
   end
@@ -44,28 +44,38 @@ class Runner
   end
 
   def rails
-    puts "rails"
+    result = `rails #{@app_name}`
   end
 
   def freeze
     puts "freeze"
   end
+  
+  def debug
+    puts 'debug'
+  end
 
   def plugin plugin_location
-    puts "plugin: #{plugin_location}"
+    `cd #{@app_name}; script/plugin #{plugin_location}`
   end
 
   def generate generator, *opts
-    puts "generate: #{generator}, #{opts}"
+    if opts.length
+      args = ''
+      opts.each {|x| args += " #{x}"}
+      `cd #{@app_name}; script/generate #{generator} #{args}`
+    else
+      `cd #{@app_name}; script/generate #{generator}`
+    end
   end
 
   def folder folder_name
     puts "folder: #{folder_name}"
-    path = ''
+    path = "#{@base}/"
     paths = folder_name.split('/')
     paths.each do |p|
       path += "#{p}/"
-      Dir.mkdir path
+      Dir.mkdir path if !File.exists? path
     end
   end
 
@@ -76,23 +86,30 @@ class Runner
 
   def delete file_name
     puts "delete: #{file_name}"
+    file_name = "#{@base}/file_name"
     File.delete file_name if File.exists?(file_name)
   end
 
   def gpl
     puts 'Installing the GPL into COPYING'
-    File.open('COPYING', 'w') {|f| f.puts "this is the GPL"}
+    File.open("#{@base}/COPYING", 'w') {|f| f.puts "this is the GPL"}
   end
 
   def rake *opts
-    puts "rake: #{opts}"
+    if opts.length
+      args = ''
+      opts.each {|x| args += " #{x}"}
+      `cd #{@app_name}; rake #{args}`
+    else
+      `cd #{@app_name}; rake`
+    end
   end
 
   def git
     puts "git"
     require 'git'
     # this doesn't work yet!
-    # Git::init("./#{@app_name}")
+    g = Git.init(@base)
   end
 
   def svn

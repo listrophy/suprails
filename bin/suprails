@@ -19,7 +19,6 @@
 #     along with Suprails.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'rubygems'
 require File.dirname(__FILE__) + '/../lib/suprails'
 
 opts = ARGV

@@ -19,6 +19,9 @@
 #
 
 class Gems
+  def initialize app_name
+    @app_name = app_name
+  end
   def update *gems
     puts "gems.update: #{gems}"
   end

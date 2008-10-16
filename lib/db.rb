@@ -49,14 +49,18 @@ class DB
       puts "db.#{@db_type}.timeout #{to}"
     end
   end
-  def initialize
+  def initialize app_name
     @development = Environment.new 'development'
     @test = Environment.new 'test'
     @production = Environment.new 'production'
+    @app_name = app_name
   end
   
   def create
-    puts 'db.create'
+    `cd #{@app_name}; rake db:create`
+  end
+  def migrate
+    `cd #{@app_name}; rake db:migrate`
   end
     
 end
