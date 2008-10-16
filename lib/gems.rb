@@ -23,13 +23,54 @@ class Gems
     @app_name = app_name
   end
   def update *gems
-    puts "gems.update: #{gems}"
+    if gems.length
+      args = ''
+      gems.each {|x| args += " #{x}"}
+      result = `gem update #{args}`
+      if result
+        puts 'Gem update failed. Please enter your admin password for sudo gem update:'
+        `sudo gem update #{args}`
+      end
+    else
+      result = `gem update`
+      if result
+        puts 'Gem update failed. Please enter your admin password for sudo gem update:'
+        `sudo gem update`
+      end
+    end
   end
+  
   def config *gems
-    puts "gems.config: #{gems}"
+    # need to do some file editing here
+    @gems = []
+    lines = ''
+    gems.each do |g|
+      @gems << g
+      lines += "  config.gem '#{g}'\n"
+    end
+    output = []
+    File.open("#{@app_name}/config/environment.rb", 'r') do |f|
+      f.each {|l| output << l }
+    end
+    insertion_point = 0
+    output.each_index do |i|
+      if output[i] =~ /config\.gem/
+        insertion_point = i
+        break
+      end
+    end
+    gems.each do |gem|
+      output.insert(insertion_point, "  config.gem #{gem}")
+    end
+    File.open("#{@app_name}/config/environment.rb", 'w') do |f|
+      output.each do |l|
+        f.puts l
+      end
+    end
   end
+  
   def unpack
-    puts "gems.config"
+    `cd #{@app_name}; rake gems:unpack`
   end
 end
 

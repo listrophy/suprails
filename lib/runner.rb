@@ -25,7 +25,7 @@ class Runner
   def initialize(app_name, runfile = "~/.suprails")
     @app_name = app_name
     @runfile = File.expand_path(runfile)
-    @sources = ''
+    @sources = '.'
   end
 
   def run
@@ -39,20 +39,19 @@ class Runner
   end
 
   def sources sourcefolder
-    puts "source: #{sourcefolder}"
-    @sources = sourcefolder
+    @sources = File.expand_path "#{sourcefolder}/"
   end
 
   def rails
-    result = `rails #{@app_name}`
-  end
-
-  def freeze
-    puts "freeze"
+    `rails #{@app_name}`
   end
   
-  def debug
-    puts 'debug'
+  def frozen_rails
+    `rails #{@app_name} --freeze`
+  end
+
+  def debug p = ''
+    puts "debug: #{p}"
   end
 
   def plugin plugin_location
@@ -70,7 +69,6 @@ class Runner
   end
 
   def folder folder_name
-    puts "folder: #{folder_name}"
     path = "#{@base}/"
     paths = folder_name.split('/')
     paths.each do |p|
@@ -80,19 +78,27 @@ class Runner
   end
 
   def file source_file, destination
-    #TODO: search @sources first!
-    File.copy source_file, destination, true if File.exists? source_file
+    require 'ftools'
+    source = File.expand_path "#{@sources}/#{source_file}"
+    dest = File.expand_path "./#{@app_name}/#{destination}"
+    # file = File.new source
+    File.copy(source, dest, true) if File.exists? source
   end
 
   def delete file_name
-    puts "delete: #{file_name}"
     file_name = "#{@base}/file_name"
     File.delete file_name if File.exists?(file_name)
   end
 
   def gpl
     puts 'Installing the GPL into COPYING'
-    File.open("#{@base}/COPYING", 'w') {|f| f.puts "this is the GPL"}
+    require 'net/http'
+    http = Net::HTTP.new('www.gnu.org')
+    path = '/licenses/gpl-3.0.txt'
+    File.open("#{@base}/COPYING", 'w') do |f|
+      resp, data = http.get(path)
+      f.puts(data)
+    end
   end
 
   def rake *opts
@@ -106,18 +112,26 @@ class Runner
   end
 
   def git
-    puts "git"
-    require 'git'
-    # this doesn't work yet!
-    g = Git.init(@base)
+    gem = false
+    begin
+      gem = require 'git'
+    rescue LoadError => e
+      puts 'try installing the git gem... just sayin\''
+      nil
+    end
+    if gem
+      g = Git.init(@base)
+    else
+      `cd #{@app_name}; git init`
+    end
   end
 
   def svn
-    puts "svn"
+    `cd #{@app_name}; svnadmin create`
   end
   
   #TODO: This should be generated via a facet, not explicitly defined
   def haml
-    puts "haml"
+    puts "haml not yet implemented"
   end
 end
