@@ -23,12 +23,10 @@ require File.dirname(__FILE__) + '/runner'
 
 class Suprails
   
-  PLUGIN_DIR = File.dirname(__FILE__) + '/../facets'
   
   def initialize(app_name = "")
     @app_name = app_name
     @run_file = ""
-    Dir["#{PLUGIN_DIR}/*.rb"].each{|x| load x }
   end
 
   def app_name=(val)
@@ -41,17 +39,6 @@ class Suprails
   def create_project
     Runner.new(@app_name).run
   end
-
-  # def write_prefs
-  #   open(File.expand_path("~/.suprails"), 'w') do |f|
-  #     f.puts '---'
-  #     f.puts '# This is the Suprails config file'
-  #     f.puts "git: #{@options['git'] ? 'true' : 'false'}"
-  #     f.puts "freeze-rails: #{@options['freeze-rails'] ? 'true' : 'false'}"
-  #     f.puts "update-gems: #{@options['update-gems'] ? 'true' : 'false'}"
-  #     f.puts "gems: #{@options['gems'] ? @options['gems'].join(' ') : 'false'}"
-  #   end
-  # end
   
   def to_s
     "Rails appname: #{@app_name}\n"

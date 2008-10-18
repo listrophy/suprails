@@ -13,37 +13,98 @@
 #   gems.update rspec rspec-rails haml
 # Example (will work):
 #   gems.update :rspec, "rspec-rails", :haml
+#
+# Also, the commands in this file are run in order. In other words, this file
+# is functional, rather than declarative. If you try to update the rails gem
+# after running the rails command, the update to rails will NOT take effect.
 
 # Declare the location for your files to copy from. Let's say you have a
 #   helper file you always have, and you'd like it to be installed into the
 #   lib/ folder. This command defines the location of your master helper file
-#   (or any other similar files)
-# Example:
+#   (or any other similar files). Ideally, this should be one of your first
+#   commands
+# Example (also the default):
 # sources "~/.suprails/sources"
-sources "~/.suprails/sources"
 
-
-# gems.update :rspec
-gems.update :rspec, "rspec-rails", :haml
+# Declare the gems you'd like to update. Keep in mind that this will likely
+#   require you to enter your root password, as sudo will probably be called
+# You should probably do this before issuing the rails command
+# Example:
+# gems.update :rspec, "rspec-rails", :haml, :capistrano
+#
+# You could instead update all gems
+# Example:
 # gems.update
-frozen_rails
-# rails
-gems.config :haml
-gems.unpack
-plugin "git://github.com/dchelimsky/rspec.git"
-plugin "git://github.com/dchelimsky/rspec-rails.git"
-generate :rspec
-generate "model", "Model", "name:string"
-folder "public/stylesheets/sass"
-file "site.sass", "public/stylesheets/sass/"
+
+# There are two ways to run the rails generator: rails and frozen_rails.
+# Only one should be called, so if you want frozen rails, comment out the
+#   rails command
+#
+# frozen_rails
+rails
+
+# Now, define the gems you wish to mention in the config/environment.rb file
+# Example:
+# gems.config :haml
+
+# You can unpack the gems that you defined with gems.config by calling
+#   gems.unpack
+# Example:
+# gems.unpack
+
+# Plugins are also available for installation.
+plugin "git://github.com/rails/exception_notification"
+
+# And you can generate stuff, too
+# Example:
+# generate :rspec
+# generate "model", "Model", "name:string"
+
+# Creating new folders is easy. Here's one for Haml
+# Example:
+# folder "public/stylesheets/sass"
+
+# You can also create new files with pre-existing content. Suprails looks for
+#   the existing file in the folder specified above in sources
+# Example:
+# file "site.sass", "public/stylesheets/sass/"
+
+# You can delete files too
+# Example:
+# delete "public/index.html"
 delete "public/index.html"
+
+# There's a convenience method for the GPL. Because... you know... the GPL
+# is good. and stuff. Note: this method accesses the GPL from the net.
+# Example:
 # gpl
-db.development.adapter :sqlite3
-db.development.db "db/development.sqlite3"
-db.development.timeout 5000
-db.create
-db.migrate
-rake
+
+# You can setup your database, too. Unfortunately, this is not yet implemented.
+#   Use 'file' to copy your database.yml file instead.
+# Examples:
+# db.development.adapter :sqlite3
+# db.development.db "db/development.sqlite3"
+# db.development.timeout 5000
+# db.create
+# db.migrate
+
+# Rake works too
+# Example:
+# rake
+
+# Like Git? Set it up!
+# Example:
+# git
 git
-# # svn
-haml
+
+# Perhaps you like subversion? Use that instead!
+# Example:
+# svn
+
+# Oh yeah, you can use plugins, too. Except, to prevent confusion with real
+#   rails plugins, we call them facets for suprails. They should be installed at:
+#     ~/.suprails/facets
+# Haml is one such facet. It requires special attention because installing it
+#   as a plugin does not complete its installation into the rails app
+# Example:
+# haml

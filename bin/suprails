@@ -54,39 +54,8 @@ else
   end
   
   if opts.first =~ /^[a-zA-Z0-9]+/
-    Suprails.new.create_project
+    Suprails.new(opts.shift).create_project
   else
     puts 'Invalid Application Name. Must start with alphanumeric character!'
   end
 end
-  
-  
-
-# suprails = Suprails.new
-# execute_rails = false
-# interactive_mode = false
-# help_mode = false
-# 
-# if opts.length == 0
-#   interactive_mode = true
-# else
-#   if ['-h', '--help'].include?(opts[0])
-#     help_mode = true
-#   else
-#     suprails = Suprails.new opts.shift
-#     execute_rails = true
-#   end
-# end
-# 
-# puts
-# puts 'Behold, this is Suprails'
-# 
-# if execute_rails
-#   suprails.create_project
-# elsif interactive_mode
-#   #TODO: write interactive mode
-#   puts 'interactive mode not yet implemented, quitting'
-# elsif help_mode
-#   #TODO: write help screen
-#   puts 'no help'
-# end

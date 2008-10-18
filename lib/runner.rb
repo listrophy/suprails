@@ -29,10 +29,11 @@ class Runner
   end
   
   def initialize(app_name, runfile = "~/.suprails/config")
-    # @app_name = app_name
     Runner.app_name = app_name
     @runfile = File.expand_path(runfile)
-    @sources = '.'
+    @sources = File.expand_path('~/.suprails/sources/')
+    @facets_source = File.expand_path('~/.suprails/facets/')
+    Dir["#{@facets_source}/*.rb"].each{|x| load x }
     
     Facet.registered_facets.each do |name, facet|
       self.class.send(:define_method, name) {}
@@ -42,10 +43,6 @@ class Runner
         end
       end
     end
-    
-    
-    # this works
-    # self.class.send(:define_method, 'haml') {nil}
   end
   
   def methods
@@ -56,7 +53,6 @@ class Runner
     gems = Gems.new Runner.app_name
     db = DB.new Runner.app_name
     @base = File.expand_path "./#{Runner.app_name}"
-    #TODO: for each facet in facets folder (TBD), include and instantiate
     Dir.mkdir(@base)
     text = File.read(@runfile).split('\n')
     text.each {|l| instance_eval(l)}
@@ -79,7 +75,7 @@ class Runner
   end
 
   def plugin plugin_location
-    `cd #{Runner.app_name}; script/plugin #{plugin_location}`
+    `cd #{Runner.app_name}; script/plugin install #{plugin_location}`
   end
 
   def generate generator, *opts
@@ -105,7 +101,7 @@ class Runner
     require 'ftools'
     source = File.expand_path "#{@sources}/#{source_file}"
     dest = File.expand_path "./#{Runner.app_name}/#{destination}"
-    File.copy(source, dest, true) if File.exists? source
+    File.copy(source, dest, false) if File.exists? source
   end
 
   def delete file_name
@@ -147,7 +143,6 @@ class Runner
     begin
       gem = require 'git'
     rescue LoadError => e
-      puts 'try installing the git gem... just sayin\''
       nil
     end
     if gem
@@ -160,5 +155,4 @@ class Runner
   def svn
     `cd #{Runner.app_name}; svnadmin create`
   end
-  
 end
