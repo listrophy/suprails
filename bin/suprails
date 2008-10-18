@@ -20,34 +20,73 @@
 #
 
 require File.dirname(__FILE__) + '/../lib/suprails'
-
 opts = ARGV
+VERSION = 0.1
 
-suprails = Suprails.new
-execute_rails = false
-interactive_mode = false
-help_mode = false
+def is_setup?
+  File.exists?(File.expand_path('~/.suprails'))
+end
+
+def setup_suprails
+  nil
+end
+
+# Does the ~/.suprails folder exist?
+if !is_setup?
+  setup_suprails
+  exit
+end
 
 if opts.length == 0
-  interactive_mode = true
+  puts 'You must provide a Rails Application Name'
 else
-  if ['-h', '--help'].include?(opts[0])
-    help_mode = true
+  # If options include -v or --version, print the version and exit
+  if opts.inject(false) {|memo, x| memo || %w{-v --version}.include?(x)}
+    puts VERSION
+    exit
+  end
+  
+  # setup the config file, using ~/.suprails/config as default
+  config = opts.index('-c') || opts.index('--config') || '~/.suprails/config'
+  if config.is_a? Fixnum
+    opts.delete_at(config)
+    config = opts.delete_at(config)
+  end
+  
+  if opts.first =~ /^[a-zA-Z0-9]+/
+    nil
   else
-    suprails = Suprails.new opts.shift
-    execute_rails = true
+    puts 'Invalid Application Name. Must start with alphanumeric character!'
   end
 end
+  
+  
 
-puts
-puts 'Behold, this is Suprails'
-
-if execute_rails
-  suprails.create_project
-elsif interactive_mode
-  #TODO: write interactive mode
-  puts 'interactive mode not yet implemented, quitting'
-elsif help_mode
-  #TODO: write help screen
-  puts 'no help'
-end
+# suprails = Suprails.new
+# execute_rails = false
+# interactive_mode = false
+# help_mode = false
+# 
+# if opts.length == 0
+#   interactive_mode = true
+# else
+#   if ['-h', '--help'].include?(opts[0])
+#     help_mode = true
+#   else
+#     suprails = Suprails.new opts.shift
+#     execute_rails = true
+#   end
+# end
+# 
+# puts
+# puts 'Behold, this is Suprails'
+# 
+# if execute_rails
+#   suprails.create_project
+# elsif interactive_mode
+#   #TODO: write interactive mode
+#   puts 'interactive mode not yet implemented, quitting'
+# elsif help_mode
+#   #TODO: write help screen
+#   puts 'no help'
+# end
