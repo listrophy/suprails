@@ -1,0 +1,49 @@
+#
+# This is the example configuration file for Suprails
+#
+
+# It is important to realize that this file is essentially a ruby source file.
+# Every statement that is not commented out with a '#' character, will be
+# executed as a ruby expression. The most important aspect of this is that all
+# string-based arguments must either be a symbol (where syntax allows) or
+# enclosed in quotes. Additionally, arguments must be separated by a comma,
+# just like a ruby method call.
+#
+# Example (will NOT work):
+#   gems.update rspec rspec-rails haml
+# Example (will work):
+#   gems.update :rspec, "rspec-rails", :haml
+
+# Declare the location for your files to copy from. Let's say you have a
+#   helper file you always have, and you'd like it to be installed into the
+#   lib/ folder. This command defines the location of your master helper file
+#   (or any other similar files)
+# Example:
+# sources "~/.suprails/sources"
+sources "~/.suprails/sources"
+
+
+# gems.update :rspec
+gems.update :rspec, "rspec-rails", :haml
+# gems.update
+frozen_rails
+# rails
+gems.config :haml
+gems.unpack
+plugin "git://github.com/dchelimsky/rspec.git"
+plugin "git://github.com/dchelimsky/rspec-rails.git"
+generate :rspec
+generate "model", "Model", "name:string"
+folder "public/stylesheets/sass"
+file "site.sass", "public/stylesheets/sass/"
+delete "public/index.html"
+# gpl
+db.development.adapter :sqlite3
+db.development.db "db/development.sqlite3"
+db.development.timeout 5000
+db.create
+db.migrate
+rake
+git
+# # svn
+haml

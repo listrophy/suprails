@@ -18,16 +18,17 @@
 #     along with Suprails.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'rubygems'
-
+# require 'rubygems'
 require File.dirname(__FILE__) + '/runner'
 
 class Suprails
-  # include SuprailsPlugins
+  
+  PLUGIN_DIR = File.dirname(__FILE__) + '/../facets'
   
   def initialize(app_name = "")
     @app_name = app_name
     @run_file = ""
+    Dir["#{PLUGIN_DIR}/*.rb"].each{|x| load x }
   end
 
   def app_name=(val)

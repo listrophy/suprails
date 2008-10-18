@@ -20,18 +20,42 @@
 
 require File.dirname(__FILE__) + '/db'
 require File.dirname(__FILE__) + '/gems'
+require File.dirname(__FILE__) + '/facet'
 
 class Runner
-  def initialize(app_name, runfile = "~/.suprails")
-    @app_name = app_name
+  
+  class << self
+    attr_accessor :app_name
+  end
+  
+  def initialize(app_name, runfile = "~/.suprails/config")
+    # @app_name = app_name
+    Runner.app_name = app_name
     @runfile = File.expand_path(runfile)
     @sources = '.'
+    
+    Facet.registered_facets.each do |name, facet|
+      self.class.send(:define_method, name) {}
+      instance_eval do
+        self.class.send(:define_method, name) do
+          facet.go Runner.app_name
+        end
+      end
+    end
+    
+    
+    # this works
+    # self.class.send(:define_method, 'haml') {nil}
+  end
+  
+  def methods
+    super.each{|x| puts x}
   end
 
   def run
-    gems = Gems.new @app_name
-    db = DB.new @app_name
-    @base = File.expand_path "./#{@app_name}"
+    gems = Gems.new Runner.app_name
+    db = DB.new Runner.app_name
+    @base = File.expand_path "./#{Runner.app_name}"
     #TODO: for each facet in facets folder (TBD), include and instantiate
     Dir.mkdir(@base)
     text = File.read(@runfile).split('\n')
@@ -43,11 +67,11 @@ class Runner
   end
 
   def rails
-    `rails #{@app_name}`
+    `rails #{Runner.app_name}`
   end
   
   def frozen_rails
-    `rails #{@app_name} --freeze`
+    `rails #{Runner.app_name} --freeze`
   end
 
   def debug p = ''
@@ -55,16 +79,16 @@ class Runner
   end
 
   def plugin plugin_location
-    `cd #{@app_name}; script/plugin #{plugin_location}`
+    `cd #{Runner.app_name}; script/plugin #{plugin_location}`
   end
 
   def generate generator, *opts
     if opts.length
       args = ''
       opts.each {|x| args += " #{x}"}
-      `cd #{@app_name}; script/generate #{generator} #{args}`
+      `cd #{Runner.app_name}; script/generate #{generator} #{args}`
     else
-      `cd #{@app_name}; script/generate #{generator}`
+      `cd #{Runner.app_name}; script/generate #{generator}`
     end
   end
 
@@ -80,8 +104,7 @@ class Runner
   def file source_file, destination
     require 'ftools'
     source = File.expand_path "#{@sources}/#{source_file}"
-    dest = File.expand_path "./#{@app_name}/#{destination}"
-    # file = File.new source
+    dest = File.expand_path "./#{Runner.app_name}/#{destination}"
     File.copy(source, dest, true) if File.exists? source
   end
 
@@ -95,9 +118,17 @@ class Runner
     require 'net/http'
     http = Net::HTTP.new('www.gnu.org')
     path = '/licenses/gpl-3.0.txt'
-    File.open("#{@base}/COPYING", 'w') do |f|
-      resp, data = http.get(path)
-      f.puts(data)
+    begin
+      resp = http.get(path)
+      if resp.code == '200'
+        File.open("#{@base}/COPYING", 'w') do |f|
+          f.puts(resp.body)
+        end
+      else
+        puts "Error #{resp.code} while retrieving GPL text."
+      end
+    rescue SocketError
+      puts 'SocketError: You might not be connected to the internet. GPL retrieval failed.'
     end
   end
 
@@ -105,9 +136,9 @@ class Runner
     if opts.length
       args = ''
       opts.each {|x| args += " #{x}"}
-      `cd #{@app_name}; rake #{args}`
+      `cd #{Runner.app_name}; rake #{args}`
     else
-      `cd #{@app_name}; rake`
+      `cd #{Runner.app_name}; rake`
     end
   end
 
@@ -122,16 +153,12 @@ class Runner
     if gem
       g = Git.init(@base)
     else
-      `cd #{@app_name}; git init`
+      `cd #{Runner.app_name}; git init`
     end
   end
 
   def svn
-    `cd #{@app_name}; svnadmin create`
+    `cd #{Runner.app_name}; svnadmin create`
   end
   
-  #TODO: This should be generated via a facet, not explicitly defined
-  def haml
-    puts "haml not yet implemented"
-  end
 end
