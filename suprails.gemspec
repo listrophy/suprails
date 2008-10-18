@@ -14,5 +14,5 @@ Gem::Specification.new do |s|
       does not replace the rails framework but rather provides a starting point
       for a rails application far beyond what the "rails" command provides. 
       During execution, in fact, the suprails command calls the rails command.
-   EOF 
+      EOF
 end
