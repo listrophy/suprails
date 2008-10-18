@@ -25,28 +25,35 @@ class DB
       @db_type = db_type
     end
     def adapter adapter
-      puts "db.#{@db_type}.adapter #{adapter}"
+      # puts "db.#{@db_type}.adapter #{adapter}"
+      puts 'database.yml modification not yet implemented'
     end
     def db db
-      puts "db.#{@db_type}.db #{db}"
+      # puts "db.#{@db_type}.db #{db}"
+      puts 'database.yml modification not yet implemented'
     end
     def database datab
       db datab
     end
     def host h
-      puts "db.#{@db_type}.host #{h}"
+      # puts "db.#{@db_type}.host #{h}"
+      puts 'database.yml modification not yet implemented'
     end
     def username uname
-      puts "db.#{@db_type}.username #{uname}"
+      # puts "db.#{@db_type}.username #{uname}"
+      puts 'database.yml modification not yet implemented'
     end
     def password passwd
-      puts "db.#{@db_type}.password #{passwd}"
+      # puts "db.#{@db_type}.password #{passwd}"
+      puts 'database.yml modification not yet implemented'
     end
     def socket s
-      puts "db.#{@db_type}.socket #{s}"
+      # puts "db.#{@db_type}.socket #{s}"
+      puts 'database.yml modification not yet implemented'
     end
     def timeout to
-      puts "db.#{@db_type}.timeout #{to}"
+      # puts "db.#{@db_type}.timeout #{to}"
+      puts 'database.yml modification not yet implemented'
     end
   end
   def initialize app_name
