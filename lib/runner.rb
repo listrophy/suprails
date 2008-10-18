@@ -105,7 +105,7 @@ class Runner
   end
 
   def delete file_name
-    file_name = "#{@base}/file_name"
+    file_name = "#{@base}/#{file_name}"
     File.delete file_name if File.exists?(file_name)
   end
 

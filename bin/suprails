@@ -28,7 +28,16 @@ def is_setup?
 end
 
 def setup_suprails
-  nil
+  Dir.mkdir(File.expand_path('~/.suprails'))
+  Dir.mkdir(File.expand_path('~/.suprails/sources'))
+  Dir.mkdir(File.expand_path('~/.suprails/facets'))
+  require 'ftools'
+  config_source = File.expand_path(File.dirname(__FILE__) + '/../.suprails.example')
+  config_dest = File.expand_path('~/.suprails/config')
+  File.copy(config_source, config_dest, false)
+  Dir[File.dirname(__FILE__) + '/../facets/*.rb'].each do |f|
+    File.copy(f, File.expand_path('~/.suprails/facets/'), false)
+  end
 end
 
 # Does the ~/.suprails folder exist?
