@@ -21,7 +21,7 @@
 
 require File.dirname(__FILE__) + '/../lib/suprails'
 opts = ARGV
-VERSION = 0.1
+SUPRAILS_VERSION = 0.1
 
 def is_setup?
   File.exists?(File.expand_path('~/.suprails'))
@@ -42,7 +42,7 @@ if opts.length == 0
 else
   # If options include -v or --version, print the version and exit
   if opts.inject(false) {|memo, x| memo || %w{-v --version}.include?(x)}
-    puts VERSION
+    puts SUPRAILS_VERSION
     exit
   end
   
@@ -54,7 +54,7 @@ else
   end
   
   if opts.first =~ /^[a-zA-Z0-9]+/
-    nil
+    Suprails.new.create_project
   else
     puts 'Invalid Application Name. Must start with alphanumeric character!'
   end
