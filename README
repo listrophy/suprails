@@ -33,9 +33,12 @@ the option to update any gems that would otherwise be out-of-date.
 Installation
 ============
 
-TBD
+$ sudo gem install listrophy-suprails --source http://gems.github.com
 
 Bugs
 ====
+
+0.1 - The DB commands do not yet work. You have to just use the file command
+      instead.
 
 0.0.0 - Initial readme. No code.
