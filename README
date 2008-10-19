@@ -35,6 +35,22 @@ Installation
 
 $ sudo gem install listrophy-suprails --source http://gems.github.com
 
+Execution
+============
+
+First, run suprails without any arguments:
+
+$ suprails
+
+This will initialize your ~/.suprails/ folder and configuration in that folder
+
+You will now want to edit the configuration file to your liking. It is located
+at: ~/.suprails/config
+
+Now, run suprails instead of rails:
+
+$ suprails AppName
+
 Bugs
 ====
 
