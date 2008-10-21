@@ -30,6 +30,19 @@ Instead of me, the Suprails author, deciding what you should have in your rails
 app, you get to decide. In addition, any time you execute Suprails, you have
 the option to update any gems that would otherwise be out-of-date.
 
+Example configuration file (~/.suprails/config)
+===============================================
+
+gems.update "rspec", "rails", "rspec-rails", "haml", "capistrano"
+frozen_rails
+plugin "git://github.com/rails/exception_notification"
+generate :rspec
+folder "public/stylesheets/sass"
+delete "public/index.html"
+gpl
+git
+haml
+
 Installation
 ============
 
