@@ -33,8 +33,11 @@ the option to update any gems that would otherwise be out-of-date.
 Example configuration file (~/.suprails/config)
 ===============================================
 
-gems.update "rspec", "rails", "rspec-rails", "haml", "capistrano"
+# Notice that ruby comments work just fine!
+# gems.update "rspec", "rails", "rspec-rails", "haml", "capistrano"
 frozen_rails
+gems.config :haml
+gems.unpack
 plugin "git://github.com/rails/exception_notification"
 generate :rspec
 folder "public/stylesheets/sass"
