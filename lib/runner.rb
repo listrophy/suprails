@@ -75,17 +75,11 @@ class Runner
   end
 
   def plugin plugin_location
-    `cd #{Runner.app_name}; script/plugin install #{plugin_location}`
+    runcommand("script/plugin install #{plugin_location}")
   end
 
   def generate generator, *opts
-    if opts.length
-      args = ''
-      opts.each {|x| args += " #{x}"}
-      `cd #{Runner.app_name}; script/generate #{generator} #{args}`
-    else
-      `cd #{Runner.app_name}; script/generate #{generator}`
-    end
+    runcommand("script/generate #{generator} #{opts.join(' ')}")
   end
 
   def folder folder_name
@@ -129,13 +123,7 @@ class Runner
   end
 
   def rake *opts
-    if opts.length
-      args = ''
-      opts.each {|x| args += " #{x}"}
-      `cd #{Runner.app_name}; rake #{args}`
-    else
-      `cd #{Runner.app_name}; rake`
-    end
+    runcommand("rake #{opts.join(' ')}")
   end
 
   def git
@@ -148,23 +136,22 @@ class Runner
     if gem
       g = Git.init(@base)
     else
-      `cd #{Runner.app_name}; git init`
+      runcommand 'git init'
     end
   end
 
   def svn
-    `cd #{Runner.app_name}; svnadmin create`
+    runcommand 'svnadmin create'
   end
   
-  def runcommand *opts
-    cmd = opts.shift
-    if opts.length
-      args = ''
-      opts.each {|x| args += " #{x}"}
-      `cd #{Runner.app_name}; #{cmd} #{args}`
-    else
-      `cd #{Runner.app_name}; #{cmd}`
-    end
+  def runcommand cmd
+    shell "cd #{Runner.app_name}; #{cmd}"
+  end
+  
+  private
+  
+  def shell cmd
+    `#{cmd}`
   end
   
 end
