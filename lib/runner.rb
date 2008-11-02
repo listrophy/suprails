@@ -155,4 +155,16 @@ class Runner
   def svn
     `cd #{Runner.app_name}; svnadmin create`
   end
+  
+  def runcommand *opts
+    cmd = opts.shift
+    if opts.length
+      args = ''
+      opts.each {|x| args += " #{x}"}
+      `cd #{Runner.app_name}; #{cmd} #{args}`
+    else
+      `cd #{Runner.app_name}; #{cmd}`
+    end
+  end
+  
 end

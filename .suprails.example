@@ -101,6 +101,11 @@ git
 # Example:
 # svn
 
+# Need a command not supplied (yet!) by suprails? 
+# You can extend it by using runcommand
+# Example:
+# runcommand capify
+
 # Oh yeah, you can use plugins, too. Except, to prevent confusion with real
 #   rails plugins, we call them facets for suprails. They should be installed at:
 #     ~/.suprails/facets
