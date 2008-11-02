@@ -19,6 +19,11 @@ class TestRunner < Test::Unit::TestCase
     @runner.generate('model user')
   end
 
+  def test_generate_with_options_as_symbols
+    @runner.expects(:runcommand).with('script/generate model user')
+    @runner.generate(:model, :user)
+  end
+
   def test_svn
     @runner.expects(:runcommand).with('svnadmin create')
     @runner.svn

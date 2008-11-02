@@ -144,8 +144,8 @@ class Runner
     runcommand 'svnadmin create'
   end
   
-  def runcommand cmd
-    shell "cd #{Runner.app_name}; #{cmd}"
+  def runcommand *opts
+    shell "cd #{Runner.app_name}; #{opts.join(' ')}"
   end
   
   private
