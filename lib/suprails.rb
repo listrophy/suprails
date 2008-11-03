@@ -23,17 +23,11 @@ require File.dirname(__FILE__) + '/runner'
 
 class Suprails
   
+  attr_accessor :app_name
   
   def initialize(app_name = "")
     @app_name = app_name
     @run_file = ""
-  end
-
-  def app_name=(val)
-    @app_name = val
-  end
-  def app_name
-    @app_name
   end
 
   def create_project

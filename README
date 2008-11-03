@@ -67,8 +67,10 @@ Now, run suprails instead of rails:
 
 $ suprails AppName
 
-Bugs
+History/Bugs
 ====
+
+0.1.1 - Added the runcommand verb
 
 0.1 - The DB commands do not yet work. You have to just use the file command
       instead.
