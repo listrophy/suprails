@@ -22,6 +22,9 @@ does not replace the rails framework but rather provides a starting point
 for a rails application far beyond what the "rails" command provides. 
 During execution, in fact, the suprails command calls the rails command.
 
+Suprails has a website at http://suprails.org Eventually, it will be a place
+where suprails users can exchange config files and facets.
+
 How it works
 ============
 
@@ -69,6 +72,8 @@ $ suprails AppName
 
 History/Bugs
 ====
+
+0.1.2 - Changed runcommand to runinside
 
 0.1.1 - Added the runcommand verb
 

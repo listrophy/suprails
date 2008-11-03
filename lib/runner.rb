@@ -75,11 +75,11 @@ class Runner
   end
 
   def plugin plugin_location
-    runcommand("script/plugin install #{plugin_location}")
+    runinside("script/plugin install #{plugin_location}")
   end
 
   def generate generator, *opts
-    runcommand("script/generate #{generator} #{opts.join(' ')}")
+    runinside("script/generate #{generator} #{opts.join(' ')}")
   end
 
   def folder folder_name
@@ -123,7 +123,7 @@ class Runner
   end
 
   def rake *opts
-    runcommand("rake #{opts.join(' ')}")
+    runinside("rake #{opts.join(' ')}")
   end
 
   def git
@@ -136,15 +136,15 @@ class Runner
     if gem
       g = Git.init(@base)
     else
-      runcommand 'git init'
+      runinside 'git init'
     end
   end
 
   def svn
-    runcommand 'svnadmin create'
+    runinside 'svnadmin create'
   end
   
-  def runcommand *opts
+  def runinside *opts
     shell "cd #{Runner.app_name}; #{opts.join(' ')}"
   end
   

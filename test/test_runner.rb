@@ -10,53 +10,53 @@ class TestRunner < Test::Unit::TestCase
   end
 
   def test_generate
-    @runner.expects(:runcommand).with('script/generate model ')
+    @runner.expects(:runinside).with('script/generate model ')
     @runner.generate('model')
   end
 
   def test_generate_with_options
-    @runner.expects(:runcommand).with('script/generate model user ')
+    @runner.expects(:runinside).with('script/generate model user ')
     @runner.generate('model user')
   end
 
   def test_generate_with_options_as_symbols
-    @runner.expects(:runcommand).with('script/generate model user')
+    @runner.expects(:runinside).with('script/generate model user')
     @runner.generate(:model, :user)
   end
 
   def test_svn
-    @runner.expects(:runcommand).with('svnadmin create')
+    @runner.expects(:runinside).with('svnadmin create')
     @runner.svn
   end
 
   def test_git
-    @runner.expects(:runcommand).with('git init')
+    @runner.expects(:runinside).with('git init')
     @runner.git
   end
 
   def test_plugin
-    @runner.expects(:runcommand).with('script/plugin install a')
+    @runner.expects(:runinside).with('script/plugin install a')
     @runner.plugin('a')
   end
 
   def test_rake
-    @runner.expects(:runcommand).with('rake ')
+    @runner.expects(:runinside).with('rake ')
     @runner.rake()
   end
 
   def test_rake_with_options
-    @runner.expects(:runcommand).with('rake test')
+    @runner.expects(:runinside).with('rake test')
     @runner.rake('test')
   end
 
-  def test_runcommand
+  def test_runinside
     @runner.expects(:shell).with( "cd test_app; cmd")
-    @runner.runcommand('cmd')
+    @runner.runinside('cmd')
   end
 
-  def test_runcommand_with_options
+  def test_runinside_with_options
     @runner.expects(:shell).with( "cd test_app; cmd a b")
-    @runner.runcommand('cmd a b')
+    @runner.runinside('cmd a b')
   end
 
 end
