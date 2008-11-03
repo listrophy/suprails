@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = "suprails"
-  s.version = "0.1"
-  s.date = "2008-10-18"
+  s.version = "0.1.1"
+  s.date = "2008-10-31"
   s.authors = ["Bradley Grzesiak"]
   s.email = "listrophy@gmail.com"
   s.summary = 'Suprails provides a wrapper to the rails command'
