@@ -1,11 +1,8 @@
 Gem::Specification.new do |s|
   s.name = "suprails"
   s.version = "0.1.1"
-<<<<<<< .merge_file_c6ZLOU
   s.date = "2008-10-31"
-=======
   s.date = "2008-10-18"
->>>>>>> .merge_file_eYSMe9
   s.authors = ["Bradley Grzesiak"]
   s.email = "listrophy@gmail.com"
   s.summary = 'Suprails provides a wrapper to the rails command'
