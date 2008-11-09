@@ -50,7 +50,7 @@ if opts.length == 0
   puts 'You must provide a Rails Application Name'
 else
   # If options include -v or --version, print the version and exit
-  if opts.any? {|opt| %w{-v --version}.include?(x)}
+  if opts.any? {|opt| %w{-v --version}.include?(opt)}
     puts SUPRAILS_VERSION
     exit
   end

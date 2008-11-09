@@ -91,9 +91,13 @@ class Runner
     end
   end
 
-  def file source_file, destination
+  def file source_file, destination, absolute = false
     require 'ftools'
-    source = File.expand_path "#{@sources}/#{source_file}"
+    if absolute
+      source = File.expand_path "#{source_file}"
+    else
+      source = File.expand_path "#{@sources}/#{source_file}"
+    end
     dest = File.expand_path "./#{Runner.app_name}/#{destination}"
     File.copy(source, dest, false) if File.exists? source
   end
@@ -146,6 +150,10 @@ class Runner
   
   def runinside *opts
     shell "cd #{Runner.app_name}; #{opts.join(' ')}"
+  end
+  
+  def save
+    file @runfile, "suprails.config", true
   end
   
   private

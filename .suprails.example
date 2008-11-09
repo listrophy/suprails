@@ -102,9 +102,9 @@ git
 # svn
 
 # Need a command not supplied (yet!) by suprails? 
-# You can extend it by using runcommand
+# You can extend it by using runinside
 # Example:
-# runcommand "capify ."
+# runinside "capify ."
 
 # Oh yeah, you can use plugins, too. Except, to prevent confusion with real
 #   rails plugins, we call them facets for suprails. They should be installed at:
@@ -113,3 +113,9 @@ git
 #   as a plugin does not complete its installation into the rails app
 # Example:
 # haml
+
+# Finally, you can save your configuration file (ie: this file) with the 'save'
+# command
+# Example:
+# save
+save

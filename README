@@ -48,6 +48,7 @@ delete "public/index.html"
 gpl
 git
 haml
+save
 
 Installation
 ============
