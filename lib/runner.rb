@@ -38,8 +38,9 @@ class Runner
     Facet.registered_facets.each do |name, facet|
       self.class.send(:define_method, name) {}
       instance_eval do
-        self.class.send(:define_method, name) do
-          facet.go Runner.app_name
+        self.class.send(:define_method, name) do |*args|
+          args.unshift(Runner.app_name)
+          facet.go *args
         end
       end
     end
