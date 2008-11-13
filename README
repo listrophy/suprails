@@ -74,6 +74,8 @@ $ suprails AppName
 History/Bugs
 ====
 
+gems.config currently only accepts one arg.
+
 0.1.3 - Added the save command and extended the file command
 
 0.1.2 - Changed runcommand to runinside
