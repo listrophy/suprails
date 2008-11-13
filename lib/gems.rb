@@ -22,24 +22,16 @@ class Gems
   def initialize app_name
     @app_name = app_name
   end
-  def update *gems
-    if gems.length
-      args = ''
-      gems.each {|x| args += " #{x}"}
-      result = `gem update #{args}`
-      if result
-        puts 'Gem update failed. Please enter your admin password for sudo gem update:'
-        `sudo gem update #{args}`
-      end
-    else
-      result = `gem update`
-      if result
-        puts 'Gem update failed. Please enter your admin password for sudo gem update:'
-        `sudo gem update`
-      end
-    end
-  end
   
+  def update *gems
+    args = gems.inject('') {|text, g| "#{text} #{g}"}
+    result = `gem update #{args}`
+    if result
+      puts 'Gem update failed. Please enter your admin password for sudo gem update:'
+      `sudo gem update #{args}`
+    end
+  end 
+ 
   def config *gems
     @gems = gems
     to_insert = gems.inject("") {|text, g| "#{text}  config.gem '#{g}'\n"}
