@@ -18,6 +18,8 @@
 #     along with Suprails.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require File.dirname(__FILE__) + '/yaml_helper'
+
 class DB
   attr_reader :development, :test, :production
   class Environment
@@ -61,6 +63,11 @@ class DB
     @test = Environment.new 'test'
     @production = Environment.new 'production'
     @app_name = app_name
+  end
+
+  def save_yaml database_hash
+    file = "#{@app_name}/config/database.yml"
+    YAMLHelper.create_yaml file, database_hash
   end
   
   def create
