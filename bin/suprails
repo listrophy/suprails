@@ -38,6 +38,8 @@ def setup_suprails
   Dir[File.dirname(__FILE__) + '/../facets/*.rb'].each do |f|
     File.copy(f, File.expand_path('~/.suprails/facets/'), false)
   end
+  puts "Finished setting up suprails in #{File.expand_path('~/.suprails')}"
+  puts "You probably want to edit the config file in there now."
 end
 
 # Does the ~/.suprails folder exist?

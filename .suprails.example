@@ -30,7 +30,9 @@
 #   require you to enter your root password, as sudo will probably be called
 # You should probably do this before issuing the rails command
 # Example:
-# gems.update :rspec, "rspec-rails", :haml, :capistrano
+#   gems.update :rspec, "rspec-rails", :haml, :capistrano
+# NOTE: symbols will generally work, but if the gem has a hyphen, it needs to
+#       be enclosed in quotes
 #
 # You could instead update all gems
 # Example:
@@ -53,14 +55,14 @@ rails
 # gems.unpack
 
 # Plugins are also available for installation.
-plugin "git://github.com/rails/exception_notification"
+# plugin "git://github.com/rails/exception_notification"
 
 # And you can generate stuff, too
 # Example:
 # generate :rspec
 # generate "model", "Model", "name:string"
 
-# Creating new folders is easy. Here's one for Haml
+# Creating new folders is easy. Here's one for Haml/Sass
 # Example:
 # folder "public/stylesheets/sass"
 
@@ -106,16 +108,17 @@ git
 # Example:
 # runinside "capify ."
 
-# Oh yeah, you can use plugins, too. Except, to prevent confusion with real
-#   rails plugins, we call them facets for suprails. They should be installed at:
+# Oh yeah, you can use suprails plugins, too. Except, to prevent confusion with
+#   real rails plugins, we call them facets for suprails. They should be
+#   installed at:
 #     ~/.suprails/facets
 # Haml is one such facet. It requires special attention because installing it
 #   as a plugin does not complete its installation into the rails app
 # Example:
 # haml
 
-# Finally, you can save your configuration file (ie: this file) with the 'save'
-# command
+# Finally, you can save a copy of this configuration file into your rails app's
+# doc directory with the 'save' command
 # Example:
 # save
 save

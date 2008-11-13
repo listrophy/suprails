@@ -18,6 +18,7 @@
 #     along with Suprails.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require File.dirname(__FILE__) + '/insertion_helper'
 require File.dirname(__FILE__) + '/db'
 require File.dirname(__FILE__) + '/gems'
 require File.dirname(__FILE__) + '/facet'
@@ -154,7 +155,7 @@ class Runner
   end
   
   def save
-    file @runfile, "suprails.config", true
+    file @runfile, "doc/suprails.config", true
   end
   
   private

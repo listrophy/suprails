@@ -58,5 +58,5 @@ class TestRunner < Test::Unit::TestCase
     @runner.expects(:shell).with( "cd test_app; cmd a b")
     @runner.runinside('cmd a b')
   end
-
+  
 end

@@ -41,37 +41,10 @@ class Gems
   end
   
   def config *gems
-    # need to do some file editing here
-    to_insert = []
-    @gems = []
-
-    gems.each do |g|
-      to_insert << "  config.gem '#{g}'\n"
-      @gems << g
-    end
-    
-    file_contents = []
-
-    File.open("#{@app_name}/config/environment.rb", 'r') do |f|
-      f.each {|l| file_contents << l }
-    end
-    
-    insertion_point = 0
-    file_contents.reverse.each_index do |i|
-      if file_contents[i] =~ /config\.gem/
-        insertion_point = i
-        break
-      end
-    end
-    
-    to_insert.each {|x| file_contents.insert(insertion_point, x) }
-
-    File.open("#{@app_name}/config/environment.rb", 'w') do |f|
-      file_contents.each do |l|
-        f.puts l
-      end
-    end
-    # `cd #{@app_name}; rake gems:install`
+    @gems = gems
+    to_insert = gems.inject("") {|text, g| "#{text}  config.gem '#{g}'\n"}
+    file = "#{@app_name}/config/environment.rb"
+    InsertionHelper.file_sub! file, /(config\.gem)/, "#{to_insert}\\1"
   end
   
   def unpack
