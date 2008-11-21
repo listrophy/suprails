@@ -32,7 +32,7 @@ def setup_suprails
   Dir.mkdir(File.expand_path('~/.suprails/sources'))
   Dir.mkdir(File.expand_path('~/.suprails/facets'))
   require 'ftools'
-  config_source = File.expand_path(File.dirname(__FILE__) + '/../.suprails.example')
+  config_source = File.expand_path(File.dirname(__FILE__) + '/../suprails.config.example')
   config_dest = File.expand_path('~/.suprails/config')
   File.copy(config_source, config_dest, false)
   Dir[File.dirname(__FILE__) + '/../facets/*.rb'].each do |f|
