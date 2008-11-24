@@ -3,21 +3,22 @@ require 'rake/gempackagetask'
 
 spec = Gem::Specification.new do |s|
   s.name = "suprails"
-  s.version = "0.1.3"
-  s.date = "2008-11-09"
+  s.version = "0.1.4"
+  s.date = "2008-11-24"
   s.authors = ["Bradley Grzesiak"]
   s.email = "listrophy@gmail.com"
   s.summary = 'Suprails provides a wrapper to the rails command'
   s.homepage = 'http://suprails.org'
-  s.files = [
-    "README",
+  s.files = ["README",
     "COPYING",
     "TODO",
     "lib/db.rb",
     "lib/facet.rb",
     "lib/gems.rb",
+    "lib/insertion_helper.rb",
     "lib/runner.rb",
     "lib/suprails.rb",
+    "lib/yaml_helper.rb",
     "facets/haml.rb",
     "bin/suprails",
     "suprails.config.example"]

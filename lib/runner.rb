@@ -56,8 +56,10 @@ class Runner
     db = DB.new Runner.app_name
     @base = File.expand_path "./#{Runner.app_name}"
     Dir.mkdir(@base)
-    text = File.read(@runfile).split('\n')
-    text.each {|l| instance_eval(l)}
+    # text = File.read(@runfile).split('\n')
+    # text.each {|l| instance_eval(l)}
+    text = File.read(@runfile)
+    instance_eval(text)
   end
 
   def sources sourcefolder
@@ -156,6 +158,12 @@ class Runner
   
   def save
     file @runfile, "doc/suprails.config", true
+  end
+  
+  def new_file filename, contents
+    File.open(File.expand_path("./#{Runner.app_name}/#{filename}"), 'w') do |f|
+      f.puts contents
+    end
   end
   
   private
