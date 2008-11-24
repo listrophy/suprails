@@ -24,12 +24,17 @@ class TestInsertionHelper < Test::Unit::TestCase
     verify_file_contents "line 1\non line two with file_sub!\nline 3\n"
   end
   
+  def test_insert_above
+    InsertionHelper.insert_above(@test_file, "3", "inserted")
+    verify_file_contents "line 1\ninserted\nline 3\n"
+  end
+  
   def verify_file_contents(contents)
     File.open(@test_file, 'r') do |f|
       assert_equal contents, f.read
     end
   end
-  
+
   def teardown
     File.delete @test_file
   end

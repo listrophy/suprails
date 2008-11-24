@@ -33,10 +33,11 @@ class Gems
   end 
  
   def config *gems
-    @gems = gems
+    @gems |= gems
     to_insert = gems.inject("") {|text, g| "#{text}  config.gem '#{g}'\n"}
     file = "#{@app_name}/config/environment.rb"
-    InsertionHelper.file_sub! file, /(^.*config\.gem.*$)/, "#{to_insert}\\1"
+    # InsertionHelper.file_sub! file, /(^.*config\.gem.*$)/, "#{to_insert}\\1"
+    InsertionHelper.insert_above file, "config.gem", to_insert[0..-2]
   end
   
   def unpack
