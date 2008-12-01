@@ -30,8 +30,8 @@ class Suprails
     @run_file = ""
   end
 
-  def create_project
-    Runner.new(@app_name).run
+  def create_project config_file
+    Runner.new(@app_name, config_file).run
   end
   
   def to_s

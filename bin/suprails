@@ -49,7 +49,28 @@ if !is_setup?
 end
 
 if opts.length == 0
-  puts 'You must provide a Rails Application Name'
+  puts <<-EOF
+Usage: /usr/bin/suprails /path/to/your/app [options]
+
+Options:
+    -v, --version                   Show the Suprails version number and quit.
+    -c, --config filename           Configuration file to use (^foo resolves to ~/.suprails/config.foo)
+
+Description:
+    The 'suprails' command parses a configuration file to create a new Ruby on
+    Rails application customized however you'd like.
+
+Examples:
+    suprails ~/dev/pro/WidgetStoreFront
+    
+    This generates a Rails application in ~/dev/pro/WidgetStoreFront with all
+    the customizations you specified in ~/.suprails/config
+    
+    suprails ~/dev/fun/BazBlog -c ^bort
+    
+    This generates a Rails application in ~/dev/fun/BazBlog with all the
+    customizations you specified in ~/.suprails/config.bort
+EOF
 else
   # If options include -v or --version, print the version and exit
   if opts.any? {|opt| %w{-v --version}.include?(opt)}
@@ -62,10 +83,12 @@ else
   if config.is_a? Fixnum
     opts.delete_at(config)
     config = opts.delete_at(config)
+    # allow "^foo" to resolve to "~/.suprails/config.foo"
+    config = config.sub(/\A(\^)/, '~/.suprails/config.')
   end
   
   if opts.first =~ /^[a-zA-Z0-9]+/
-    Suprails.new(opts.shift).create_project
+    Suprails.new(opts.shift).create_project(config)
   else
     puts 'Invalid Application Name. Must start with alphanumeric character!'
   end
