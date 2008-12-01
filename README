@@ -48,12 +48,12 @@ delete "public/index.html"
 gpl
 git
 haml
-save
+save # saves a copy of the configfile into rails app
 
 Installation
 ============
 
-$ sudo gem install listrophy-suprails --source http://gems.github.com
+$ sudo gem install suprails
 
 Execution
 ============
@@ -75,6 +75,10 @@ History/Bugs
 ====
 
 gems.config currently only accepts one arg.
+
+0.2.1 - Added ability to specify a particular config file when running suprails
+        Added output for all commands
+        Updated help text when suprails is run without args (after 1st time)
 
 0.1.3 - Added the save command and extended the file command
 

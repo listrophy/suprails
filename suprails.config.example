@@ -81,7 +81,7 @@ delete "public/index.html"
 # Example:
 # gpl
 
-# You can setup your database, too. Unfortunately, this is not yet implemented.
+# You can setup your database, too. Unfortunately, this is NOT YET IMPLEMENTED.
 #   Use 'file' to copy your database.yml file instead.
 # Examples:
 # db.development.adapter :sqlite3
@@ -89,6 +89,12 @@ delete "public/index.html"
 # db.development.timeout 5000
 # db.create
 # db.migrate
+#
+# For the time being, you can instead use db.save_yaml
+# Example:
+# db.save_yaml({ "development" => 
+#   {"adapter" => 'sqlite3', 'database' => 'db/dev.sqlite3' }
+# })
 
 # Rake works too
 # Example:
@@ -116,6 +122,19 @@ git
 #   as a plugin does not complete its installation into the rails app
 # Example:
 # haml
+
+# If you want to create a new file from within this file (for archival
+# purposes compared to the 'file' command), use the new_file command
+# Example:
+# new_file '.gitignore', <<-EOF
+# log/*.log
+# tmp/**/*
+# .DS_Store
+# doc/api
+# doc/app
+# coverage
+# db/*.sqlite3
+# EOF
 
 # Finally, you can save a copy of this configuration file into your rails app's
 # doc directory with the 'save' command

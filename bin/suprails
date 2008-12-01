@@ -21,7 +21,7 @@
 
 require File.dirname(__FILE__) + '/../lib/suprails'
 opts = ARGV
-SUPRAILS_VERSION = 0.1
+SUPRAILS_VERSION = "0.2.1"
 
 def is_setup?
   File.exists?(File.expand_path('~/.suprails'))
@@ -74,7 +74,7 @@ EOF
 else
   # If options include -v or --version, print the version and exit
   if opts.any? {|opt| %w{-v --version}.include?(opt)}
-    puts SUPRAILS_VERSION
+    puts "Suprails Version: #{SUPRAILS_VERSION}"
     exit
   end
   

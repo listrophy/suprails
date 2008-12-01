@@ -3,8 +3,8 @@ require 'rake/gempackagetask'
 
 spec = Gem::Specification.new do |s|
   s.name = "suprails"
-  s.version = "0.1.4"
-  s.date = "2008-11-24"
+  s.version = "0.2.1"
+  s.date = "2008-11-30"
   s.authors = ["Bradley Grzesiak"]
   s.email = "listrophy@gmail.com"
   s.summary = 'Suprails provides a wrapper to the rails command'
