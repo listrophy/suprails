@@ -56,22 +56,21 @@ class Runner
     db = DB.new Runner.app_name
     @base = File.expand_path "./#{Runner.app_name}"
     Dir.mkdir(@base)
-    # text = File.read(@runfile).split('\n')
-    # text.each {|l| instance_eval(l)}
     text = File.read(@runfile)
     instance_eval(text)
   end
 
   def sources sourcefolder
     @sources = File.expand_path "#{sourcefolder}/"
+    puts "Using #{@sources} for file sources"
   end
 
   def rails
-    `rails #{Runner.app_name}`
+    shell "rails #{Runner.app_name}"
   end
   
   def frozen_rails
-    `rails #{Runner.app_name} --freeze`
+    shell "rails #{Runner.app_name} --freeze"
   end
 
   def debug p = ''
@@ -88,6 +87,7 @@ class Runner
 
   def folder folder_name
     path = "#{@base}/"
+    puts "New folder: #{@base}"
     paths = folder_name.split('/')
     paths.each do |p|
       path += "#{p}/"
@@ -103,11 +103,12 @@ class Runner
       source = File.expand_path "#{@sources}/#{source_file}"
     end
     dest = File.expand_path "./#{Runner.app_name}/#{destination}"
-    File.copy(source, dest, false) if File.exists? source
+    File.copy(source, dest, true) if File.exists? source
   end
 
   def delete file_name
     file_name = "#{@base}/#{file_name}"
+    puts "Deleting: #{@file_name}"
     File.delete file_name if File.exists?(file_name)
   end
 
@@ -135,21 +136,11 @@ class Runner
   end
 
   def git
-    gem = false
-    begin
-      gem = require 'git'
-    rescue LoadError => e
-      nil
-    end
-    if gem
-      g = Git.init(@base)
-    else
-      runinside 'git init'
-    end
+    runinside('git init')
   end
 
   def svn
-    runinside 'svnadmin create'
+    runinside('svnadmin create')
   end
   
   def runinside *opts
@@ -164,12 +155,13 @@ class Runner
     File.open(File.expand_path("./#{Runner.app_name}/#{filename}"), 'w') do |f|
       f.puts contents
     end
+    puts "Generating file: #{filename}"
   end
   
   private
   
   def shell cmd
-    `#{cmd}`
+    puts `#{cmd}`
   end
   
 end
