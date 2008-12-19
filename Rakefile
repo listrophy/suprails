@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'rake/gempackagetask'
+require 'rake/testtask'
 
 spec = Gem::Specification.new do |s|
   s.name = "suprails"
@@ -55,3 +56,10 @@ task :build_gemspec do
 end
 
 task :default => [:build_gemspec, :gem]
+
+desc "Run all the tests"
+Rake::TestTask.new do |t|
+    t.libs << "test" << "lib/#{::Config::CONFIG['arch']}"
+    t.test_files = FileList['test/test_*.rb']
+    t.verbose = true
+end
