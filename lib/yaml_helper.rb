@@ -40,10 +40,11 @@ class YAMLHelper
   protected
   def self.create_directory_unless_exists(directory)
     directory = File.expand_path(directory)
+    starts_with_slash = directory.index('/') == 0
     dir_arr = directory.split('/')
-    curr_dir = ""
+    curr_dir = starts_with_slash ? '/' : ''
     dir_arr.each do |dir|
-      curr_dir << "/#{dir}"
+      curr_dir << "#{dir}/"
       unless File.exist?(curr_dir)
         Dir.mkdir(curr_dir)
       end

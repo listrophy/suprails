@@ -23,12 +23,13 @@ class TestDb < Test::Unit::TestCase
                          'production' => prod_hash
                        }
     @db.save_yaml environment_hash
-    verify_file_contents "--- \ndevelopment: \n  adapter: mysql\n  username: user\n  database: test_app_dev\n  pass: pass\nproduction: \n  adapter: mysql\n  username: user\n  database: test_app_prod\n  pass: pass\ntest: \n  adapter: mysql\n  username: user\n  database: test_app_test\n  pass: pass\n"
+    verify_yaml_contents({'development' => dev_hash, 'production' => prod_hash,
+        'test' => test_hash})
   end
 
-  def verify_file_contents(contents)
-    File.open(@test_file, 'r') do |f|
-      assert_equal contents, f.read
+  def verify_yaml_contents(hash)
+    File.open(@test_file, 'r') do |file|
+      assert_equal YAML::load(file), hash
     end
   end
 
