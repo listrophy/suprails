@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/../lib/runner.rb'
+require File.dirname(__FILE__) + '/../lib/facet.rb'
 require 'test/unit' unless defined? $ZENTEST and $ZENTEST
 require 'rubygems'
 require 'mocha'
