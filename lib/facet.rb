@@ -34,7 +34,11 @@ module FacetSugar
   end
 end
 
+require File.dirname(__FILE__) + '/suprails_helper'
+
 class Facet
+  include SuprailsHelper
+  
   @registered_facets = {}
   class << self
     attr_reader :registered_facets

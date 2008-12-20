@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.description = %q{This project is intended to be a replacement for the "rails" command. It  does not replace the rails framework but rather provides a starting point for a rails application far beyond what the "rails" command provides.  During execution, in fact, the suprails command calls the rails command.}
   s.email = %q{listrophy@gmail.com}
   s.executables = ["suprails"]
-  s.files = ["README", "COPYING", "TODO", "lib/db.rb", "lib/facet.rb", "lib/gems.rb", "lib/insertion_helper.rb", "lib/runner.rb", "lib/suprails.rb", "lib/yaml_helper.rb", "facets/haml.rb", "bin/suprails", "suprails.config.example"]
+  s.files = ["README", "COPYING", "TODO", "lib/db.rb", "lib/facet.rb", "lib/gems.rb", "lib/insertion_helper.rb", "lib/runner.rb", "lib/suprails.rb", "lib/yaml_helper.rb", "lib/suprails_helper.rb", "facets/haml.rb", "bin/suprails", "suprails.config.example"]
   s.homepage = %q{http://suprails.org}
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{suprails}

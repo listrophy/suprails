@@ -19,6 +19,7 @@ spec = Gem::Specification.new do |s|
     "lib/insertion_helper.rb",
     "lib/runner.rb",
     "lib/suprails.rb",
+    "lib/suprails_helper.rb",
     "lib/yaml_helper.rb",
     "facets/haml.rb",
     "bin/suprails",
