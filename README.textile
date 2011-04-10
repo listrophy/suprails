@@ -1,6 +1,6 @@
-= Suprails
+h1. Suprails
 
-"!http://stillmaintained.com/jeffkreeftmeijer/abandoned.png!":http://stillmaintained.com/listrophy/suprails
+"!http://stillmaintained.com/listrophy/suprails.png!":http://stillmaintained.com/listrophy/suprails
 
 This project is no longer useful. Please use
 
