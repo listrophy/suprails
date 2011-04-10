@@ -1,0 +1,9 @@
+= Suprails
+
+"!http://stillmaintained.com/jeffkreeftmeijer/abandoned.png!":http://stillmaintained.com/listrophy/suprails
+
+This project is no longer useful. Please use
+
+* http://railswizard.org/
+* http://railstemplates.org/
+* https://github.com/search?q=rails-templates
